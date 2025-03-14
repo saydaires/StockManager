@@ -78,3 +78,197 @@ After making the necessary configurations for the dependencies used or associate
 
 ---
 ## Mapping Entities
+
+#### Owner Side
+Before mapping the `Product` and `Category` entities used in our project so far, we need to understand the concept of the **Owner Side** in a relationship between database tables in the context of JPA.
+
+In the context of our application, it is known that the relationship between the `Product` and `Category` tables is one-to-many, where one category can be referenced by many products. In this type of relationship, it is important to understand the concept of the **Owner Side**, which will be the one that **will hold the foreign key** linking the two tables. In this case, the `Product` entity **is the owner side of the relationship**, as this table will contain a column that references the foreign key of the `Category` entity.
+
+#### Mapping Entities Using JPA
+###### `Product` Entity
+```java
+package com.studies.stock_manager.entities;  
+import jakarta.persistence.*;  
+  
+@Entity  
+public class Product {  
+    @Id  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    private long id;  
+  
+    @Column(name = "name")  
+    private String name;  
+  
+    @Column(name="description")  
+    private String description;  
+  
+    @Column(name="price")  
+    private double price;  
+  
+    @Column(name="stock_quantity")  
+    private int stockQuantity;  
+  
+    @ManyToOne  
+    @JoinColumn(name="category_id", referencedColumnName = "id", nullable=false)  
+    private Category category;  
+}
+```
+The `@Entity` annotation belongs to the `import jakarta.persistence.*` package and is used to specify that the `Product` class represents a database entity.  
+In the `id` attribute, we use the `@Id` and `@GeneratedValue(strategy = GenerationType.IDENTITY)` annotations to specify that this attribute is the PK (Primary Key) column of the entity in question, and its value should be **automatically generated** by the database. The `GenerationType.IDENTIFY` constant indicates that the `strategy` for generating these keys will depend on the DBMS used. For example, MySQL will generate values based on `AUTO_INCREMENT`.
+
+Moving forward, we use the `@Column` annotations to indicate columns of this entity in the database (and specify their names as arguments).
+
+Finally, the `@ManyToOne` annotation specifies that there is a **many-to-one** relationship between the `Product` and `Category` entities, where one category can be associated with many products. This annotation is strictly important **because it specifies a relationship** between the `Product` entity and the `Category` entity, through the `category` attribute. The `@JoinColumn(name="category_id", referencedColumnName = "id")` instruction specifies that **a column referencing a FK** (foreign key) should be added, where this column will be named `category_id` and will reference the `id` column in the `Category` entity. The `nullable=false` instruction ensures that this column cannot be filled with `null` in the database and must have an initialized FK.
+
+Last but not least, the `@JoinColumn(name="category_id", referencedColumnName = "id")` instruction also defines that the `Product` entity will be the **Owner Side**. In our example, it contains the reference (FK) to the `Category` entity. This same instruction will not be used in the referenced column within the scope of the referenced `Category` entity.
+
+###### `Category` Entity
+```java
+package com.studies.stock_manager.entities;  
+import jakarta.persistence.*;  
+import java.util.List;  
+  
+@Entity  
+public class Category {  
+    @Id  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    private int id;  
+  
+    @Column(name="name")  
+    private String name;  
+  
+    @OneToMany(mappedBy = "category")  
+    private List<Product> products;  
+}
+```
+The annotations used in the `Category` entity represent the same as explained earlier for the `Product` entity, except for the `@OneToMany(mappedBy = "category")` annotation. Notice that this annotation is the inverse of the one used in `Product`, which is important to maintain the relationship between these entities and keep the logic cohesive (one category can be in many products). The `mappedBy` instruction indicates which column in the `Product` entity is mapping the `Category` entity, in this case, the `category` column.
+
+Notice that we do not use the `@JoinColumn` annotation, as we are now dealing with the non-owner side of the relationship between these two entities.
+
+Finally, note that the `products` attribute does not represent a column in the `Category` entity, being instead a characteristic of this entity within the application, used to define business rules, but not extending to the database.
+
+###### Constructors, Getters, and Setters for Entities
+###### `Product` Entity
+```java
+package com.studies.stock_manager.entities;  
+import jakarta.persistence.*;  
+  
+@Entity  
+public class Product {
+	// JPA handling above
+	
+    public Product() { }  
+  
+    public Product(String name, String description, double price, int stockQuantity, Category category) {  
+        this.name = name;  
+        this.description = description;  
+        this.price = price;  
+        this.stockQuantity = stockQuantity;  
+        this.category = category;  
+    }  
+  
+    public long getId() {  
+        return id;  
+    }  
+  
+    public void setId(long id) {  
+        this.id = id;  
+    }  
+  
+    public String getName() {  
+        return name;  
+    }  
+  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+  
+    public String getDescription() {  
+        return description;  
+    }  
+  
+    public void setDescription(String description) {  
+        this.description = description;  
+    }  
+  
+    public double getPrice() {  
+        return price;  
+    }  
+  
+    public void setPrice(double price) {  
+	    if(price <= 0)  
+		    throw new IllegalArgumentException("Invalid value as price");  
+		this.price = price;
+    }  
+  
+    public int getStockQuantity() {  
+        return stockQuantity;  
+    }  
+  
+    public void setStockQuantity(int stockQuantity) {  
+        this.stockQuantity = stockQuantity;  
+    }  
+  
+    public Category getCategory() {  
+        return category;  
+    }  
+  
+    public void setCategory(Category category) {  
+        this.category = category;  
+    }  
+}
+```
+
+Notice that we have an **explicit empty constructor** in the scope of the entity. It is mandatory because JPA will need it when initializing objects of this entity. JPA uses an empty constructor to initialize objects of this entity and then initializes its attributes using the **setter methods** declared in the scope of the entity, which makes the **setter methods** also mandatory.
+
+The non-empty (parameterized) constructor is not mandatory for JPA to function, as JPA does not use it. However, it is useful for initializing entity objects within the application.
+
+###### `Category` Entity
+For the `Category` entity, we follow the same logic for constructing constructors and methods as used in the `Product` entity:
+```java
+package com.studies.stock_manager.entities;  
+import jakarta.persistence.*;  
+import java.util.List;  
+  
+@Entity  
+public class Category {  
+    @Id  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    private int id;  
+  
+    @Column(name="name")  
+    private String name;  
+  
+    @OneToMany(mappedBy = "category")  
+    private List<Product> products;  
+  
+    public Category() { }  
+  
+    public int getId() {  
+        return id;  
+    }  
+  
+    public void setId(int id) {  
+        this.id = id;  
+    }  
+  
+    public String getName() {  
+        return name;  
+    }  
+  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+  
+    public List<Product> getProducts() {  
+        return products;  
+    }  
+  
+    public void setProducts(List<Product> products) {  
+        this.products = products;  
+    }  
+}
+```
+---
+## Building the Layers: `repositories` Layer
+
