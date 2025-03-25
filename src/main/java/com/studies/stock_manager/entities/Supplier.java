@@ -1,21 +1,21 @@
 package com.studies.stock_manager.entities;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name="categories")
-public class Category {
+@Table(name = "suppliers")
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="name")
+    @Column(name= "name")
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    @Column(name = "contact")
+    private String contact;
 
-    public Category() { }
+    public Supplier() {
+    }
 
     public long getId() {
         return id;
@@ -33,11 +33,11 @@ public class Category {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public String getContact() {
+        return contact;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }
