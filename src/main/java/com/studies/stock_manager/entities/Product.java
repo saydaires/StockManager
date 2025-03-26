@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "name")
@@ -17,20 +18,19 @@ public class Product {
     @Column(name="price")
     private double price;
 
-    @Column(name="stock_quantity")
-    private int stockQuantity;
-
     @ManyToOne
     @JoinColumn(name="category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
+    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
+    private Stock stock;
+
     public Product() { }
 
-    public Product(String name, String description, double price, int stockQuantity, Category category) {
+    public Product(String name, String description, double price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.stockQuantity = stockQuantity;
         this.category = category;
     }
 
@@ -68,19 +68,19 @@ public class Product {
         this.price = price;
     }
 
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
-
     public Category getCategory() {
         return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 }
