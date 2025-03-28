@@ -10,12 +10,19 @@ public class OrderItem {
     @Column(name = "quantity")
     private int quantity;
 
-//    @Column(name = "id_order")
-//    private long idOrder;
+    @Column(name = "total_value")
+    private double totalValue;
+
+    @ManyToOne
+    @JoinColumn(name = "id_order", referencedColumnName = "id")
+    private Order order;
 
 //    @Column(name = "id_product")
 //    private long idProduct;
 
+    @ManyToOne
+    @JoinColumn(name = "id_product", referencedColumnName = "id")
+    private Product product;
 
     public OrderItem() {
     }
@@ -34,5 +41,13 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(double totalValue) {
+        this.totalValue = totalValue;
     }
 }

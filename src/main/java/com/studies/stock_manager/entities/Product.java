@@ -1,6 +1,9 @@
 package com.studies.stock_manager.entities;
 import jakarta.persistence.*;
 
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -15,6 +18,9 @@ public class Product {
     @Column(name="description")
     private String description;
 
+    @Column(name="stock")
+    private int stock;
+
     @Column(name="price")
     private double price;
 
@@ -22,17 +28,18 @@ public class Product {
     @JoinColumn(name="category_id", referencedColumnName = "id", nullable = false)
     private Category category;
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
-    private Stock stock;
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> items;
+
+    @ManyToMany
+    @JoinTable(
+            name = "products_suppliers",
+            joinColumns = @JoinColumn(name = "id_product"),
+            inverseJoinColumns = @JoinColumn(name = "id_supplier")
+    )
+    private Set<Supplier> suppliers;
 
     public Product() { }
-
-    public Product(String name, String description, double price, Category category) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-    }
 
     public long getId() {
         return id;
@@ -76,11 +83,19 @@ public class Product {
         this.category = category;
     }
 
-    public Stock getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Stock stock) {
+    public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }
