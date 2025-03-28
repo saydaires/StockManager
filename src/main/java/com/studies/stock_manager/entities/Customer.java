@@ -1,6 +1,8 @@
 package com.studies.stock_manager.entities;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -13,6 +15,12 @@ public class Customer {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> customerOrders;
 
     public Customer() {
     }
@@ -39,5 +47,21 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Order> getCustomerOrders() {
+        return customerOrders;
+    }
+
+    public void setCustomerOrders(List<Order> customerOrders) {
+        this.customerOrders = customerOrders;
     }
 }
