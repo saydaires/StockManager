@@ -1,6 +1,8 @@
 package com.studies.stock_manager.entities;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "suppliers")
 public class Supplier {
@@ -13,6 +15,9 @@ public class Supplier {
 
     @Column(name = "contact")
     private String contact;
+
+    @ManyToMany(mappedBy = "suppliers")
+    private Set<Product> products;
 
     public Supplier() {
     }
