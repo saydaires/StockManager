@@ -31,7 +31,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> items;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "products_suppliers",
             joinColumns = @JoinColumn(name = "id_product"),

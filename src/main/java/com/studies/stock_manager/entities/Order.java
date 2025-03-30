@@ -32,10 +32,6 @@ public class Order {
     @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
 
-//    @Column(name = "id_customer")
-//    private long idCustomer;
-
-
     public Order() {
     }
 
