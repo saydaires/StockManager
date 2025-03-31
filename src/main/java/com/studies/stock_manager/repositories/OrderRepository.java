@@ -25,8 +25,8 @@ public class OrderRepository {
         return orderJpaRepository.findAll();
     }
 
-    public void delete(Order order) {
-        orderJpaRepository.delete(order);
+    public void delete(long id) {
+        orderJpaRepository.deleteById(id);
     }
 
     public void update(Order futureOrder) {

@@ -23,7 +23,7 @@ public class OrderItemRepository {
         return orderItemJpaRepository.findAll();
     }
 
-    public void delete(OrderItem orderItem) {
-        orderItemJpaRepository.delete(orderItem);
+    public void delete(long id) {
+        orderItemJpaRepository.deleteById(id);
     }
 }
