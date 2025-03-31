@@ -25,8 +25,8 @@ public class ProductRepository {
         return productJpaRepository.findAll();
     }
 
-    public void delete(Product product) {
-        productJpaRepository.delete(product);
+    public void delete(long id) {
+        productJpaRepository.deleteById(id);
     }
 
     public void update(Product futureProduct) {

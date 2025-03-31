@@ -25,8 +25,8 @@ public class SupplierRepository {
         return supplierJpaRepository.findAll();
     }
 
-    public void delete(Supplier supplier) {
-        supplierJpaRepository.delete(supplier);
+    public void delete(long id) {
+        supplierJpaRepository.deleteById(id);
     }
 
     public void update(Supplier futureSupplier) {

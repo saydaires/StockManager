@@ -24,8 +24,8 @@ public class CustomerRepository {
         return customerJpaRepository.findAll();
     }
 
-    public void delete(Customer customer) {
-        customerJpaRepository.delete(customer);
+    public void delete(long id) {
+        customerJpaRepository.deleteById(id);
     }
 
     public void update(Customer futureCustomer) {

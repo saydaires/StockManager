@@ -25,8 +25,8 @@ public class CategoryRepository {
         return categoryJpaRepository.findAll();
     }
 
-    public void delete(Category category) {
-        categoryJpaRepository.delete(category);
+    public void delete(long id) {
+        categoryJpaRepository.deleteById(id);
     }
 
     public void update(Category futureCategory) {
