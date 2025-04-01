@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public class CategoryRepository {
-    private CategoryJpaRepository categoryJpaRepository;
+    private final CategoryJpaRepository categoryJpaRepository;
 
     public CategoryRepository(CategoryJpaRepository categoryJpaRepository) {
         this.categoryJpaRepository = categoryJpaRepository;

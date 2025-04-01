@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public class OrderRepository {
-    private OrderJpaRepository orderJpaRepository;
+    private final OrderJpaRepository orderJpaRepository;
 
     public OrderRepository(OrderJpaRepository orderJpaRepository) {
         this.orderJpaRepository = orderJpaRepository;

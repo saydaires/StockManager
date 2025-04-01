@@ -10,6 +10,9 @@ public class Category {
     @Column(name = "id")
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name="name")
     private String name;
 

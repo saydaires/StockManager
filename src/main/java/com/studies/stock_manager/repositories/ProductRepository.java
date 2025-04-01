@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public class ProductRepository {
-    private ProductJpaRepository productJpaRepository;
+    private final ProductJpaRepository productJpaRepository;
 
     public ProductRepository(ProductJpaRepository productJpaRepository) {
         this.productJpaRepository = productJpaRepository;

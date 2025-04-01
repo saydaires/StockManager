@@ -6,7 +6,7 @@ import java.util.List;
 
 @Repository
 public class OrderItemRepository {
-    private OrderItemJpaRepository orderItemJpaRepository;
+    private final OrderItemJpaRepository orderItemJpaRepository;
 
     public OrderItemRepository(OrderItemJpaRepository orderItemJpaRepository) {
         this.orderItemJpaRepository = orderItemJpaRepository;
