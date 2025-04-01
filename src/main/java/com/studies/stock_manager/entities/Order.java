@@ -13,6 +13,9 @@ public class Order {
     @Column(name = "id")
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name = "order_date")
     private Date orderDate;
 

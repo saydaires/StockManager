@@ -1,6 +1,6 @@
 package com.studies.stock_manager.services;
-import com.studies.stock_manager.entities.Customer;
-import com.studies.stock_manager.repositories.CustomerRepository;
+import com.studies.stock_manager.entities.Product;
+import com.studies.stock_manager.repositories.ProductRepository;
 import com.studies.stock_manager.services.exceptions.DelayedRecordException;
 import com.studies.stock_manager.services.exceptions.EntityNotFoundException;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -9,42 +9,42 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerService {
-    private final CustomerRepository customerRepository;
+public class ProductService {
+    private final ProductRepository productRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    public void create(Customer customer) {
-        customerRepository.create(customer);
+    public void create(Product product) {
+        productRepository.create(product);
     }
 
-    public Customer getById(long id) {
+    public Product getById(long id) {
         try {
-            return customerRepository.getById(id);
+            return productRepository.getById(id);
         }
         catch(NoSuchElementException error) {
-            throw new EntityNotFoundException("Customer Not Found!", error);
+            throw new EntityNotFoundException("Product Not Found!", error);
         }
     }
 
-    public List<Customer> getAll() {
-        return customerRepository.getAll();
+    public List<Product> getAll() {
+        return productRepository.getAll();
     }
 
     public void delete(long id) {
         try {
-            customerRepository.delete(id);
+            productRepository.delete(id);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Field Id cannot be null!", error);
         }
     }
 
-    public void update(Customer customer) {
+    public void update(Product product) {
         try {
-            customerRepository.update(customer);
+            productRepository.update(product);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Object cannot be null!", error);

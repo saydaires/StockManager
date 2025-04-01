@@ -6,7 +6,7 @@ import java.util.List;
 
 @Repository
 public class CustomerRepository {
-    private CustomerJpaRepository customerJpaRepository;
+    private final CustomerJpaRepository customerJpaRepository;
 
     public CustomerRepository(CustomerJpaRepository customerJpaRepository) {
         this.customerJpaRepository = customerJpaRepository;

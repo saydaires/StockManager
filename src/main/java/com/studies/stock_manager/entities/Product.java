@@ -24,6 +24,9 @@ public class Product {
     @Column(name="price")
     private double price;
 
+    @Version
+    private long version;
+
     @ManyToOne
     @JoinColumn(name="category_id", referencedColumnName = "id", nullable = false)
     private Category category;

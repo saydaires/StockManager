@@ -10,6 +10,9 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Version
+    private long version;
+
     @Column(name = "name")
     private String name;
 
