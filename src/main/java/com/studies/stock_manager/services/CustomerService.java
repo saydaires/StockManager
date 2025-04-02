@@ -3,6 +3,7 @@ import com.studies.stock_manager.entities.Customer;
 import com.studies.stock_manager.repositories.CustomerRepository;
 import com.studies.stock_manager.services.exceptions.DelayedRecordException;
 import com.studies.stock_manager.services.exceptions.EntityNotFoundException;
+import org.springframework.beans.BeansException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import java.util.NoSuchElementException;
 import java.util.List;
@@ -42,15 +43,26 @@ public class CustomerService {
         }
     }
 
-    public void update(Customer customer) {
+    public void update(long id, Customer customer) {
         try {
-            customerRepository.update(customer);
+            customerRepository.update(id, customer);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Object cannot be null!", error);
         }
+        catch(BeansException error) {
+            throw new EntityNotFoundException("Error during handling bean!", error);
+        }
         catch(OptimisticLockingFailureException error) {
             throw new DelayedRecordException("Application data in conflict with the database!", error);
         }
+    }
+
+    public Customer findByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email);
+        if(customer == null) {
+            throw new EntityNotFoundException("Customer Not Found!");
+        }
+        return customer;
     }
 }

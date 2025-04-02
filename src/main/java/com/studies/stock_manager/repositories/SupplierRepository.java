@@ -1,6 +1,7 @@
 package com.studies.stock_manager.repositories;
 import com.studies.stock_manager.entities.Supplier;
 import com.studies.stock_manager.repositories.interfaces.SupplierJpaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,12 +30,9 @@ public class SupplierRepository {
         supplierJpaRepository.deleteById(id);
     }
 
-    public void update(Supplier futureSupplier) {
-        Supplier supplierDatabase = supplierJpaRepository.findById(futureSupplier.getId()).get();
-
-        supplierDatabase.setName(futureSupplier.getName());
-        supplierDatabase.setContact(futureSupplier.getContact());
-
+    public void update(long id, Supplier futureSupplier) {
+        Supplier supplierDatabase = supplierJpaRepository.findById(id).get();
+        BeanUtils.copyProperties(futureSupplier, supplierDatabase, "id");
         supplierJpaRepository.save(supplierDatabase);
     }
 }

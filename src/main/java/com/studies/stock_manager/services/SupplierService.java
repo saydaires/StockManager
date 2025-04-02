@@ -5,6 +5,7 @@ import com.studies.stock_manager.services.exceptions.DelayedRecordException;
 import com.studies.stock_manager.services.exceptions.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.List;
+import org.springframework.beans.BeansException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +35,15 @@ public class SupplierService {
     }
 
 
-    public void update(Supplier supplier) {
+    public void update(long id, Supplier supplier) {
         try {
-            supplierRepository.update(supplier);
+            supplierRepository.update(id, supplier);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Object cannot be null!", error);
+        }
+        catch(BeansException error) {
+            throw new EntityNotFoundException("Error during handling bean!", error);
         }
         catch(OptimisticLockingFailureException error) {
             throw new DelayedRecordException("Application data in conflict with the database!", error);

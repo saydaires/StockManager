@@ -1,6 +1,7 @@
 package com.studies.stock_manager.repositories;
 import com.studies.stock_manager.entities.Product;
 import com.studies.stock_manager.repositories.interfaces.ProductJpaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,13 +30,9 @@ public class ProductRepository {
         productJpaRepository.deleteById(id);
     }
 
-    public void update(Product futureProduct) {
-        Product productDatabase = productJpaRepository.findById(futureProduct.getId()).get();
-
-        productDatabase.setStock(futureProduct.getStock());
-        productDatabase.setPrice(futureProduct.getPrice());
-        productDatabase.setDescription(futureProduct.getDescription());
-
+    public void update(long id, Product futureProduct) {
+        Product productDatabase = productJpaRepository.findById(id).get();
+        BeanUtils.copyProperties(futureProduct, productDatabase, "id");
         productJpaRepository.save(productDatabase);
     }
 }
