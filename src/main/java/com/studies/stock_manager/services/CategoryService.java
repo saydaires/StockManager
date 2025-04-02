@@ -3,6 +3,7 @@ import com.studies.stock_manager.entities.Category;
 import com.studies.stock_manager.repositories.CategoryRepository;
 import com.studies.stock_manager.services.exceptions.EntityNotFoundException;
 import com.studies.stock_manager.services.exceptions.DelayedRecordException;
+import org.springframework.beans.BeansException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import java.util.NoSuchElementException;
@@ -42,12 +43,15 @@ public class CategoryService {
         }
     }
 
-    public void update(Category category) {
+    public void update(long id, Category category) {
         try {
-            categoryRepository.update(category);
+            categoryRepository.update(id, category);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Object cannot be null!", error);
+        }
+        catch(BeansException error) {
+            throw new EntityNotFoundException("Error during handling bean!", error);
         }
         catch(OptimisticLockingFailureException error) {
             throw new DelayedRecordException("Application data in conflict with the database!", error);

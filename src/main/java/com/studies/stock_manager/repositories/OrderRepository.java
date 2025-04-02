@@ -1,6 +1,7 @@
 package com.studies.stock_manager.repositories;
 import com.studies.stock_manager.entities.Order;
 import com.studies.stock_manager.repositories.interfaces.OrderJpaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,12 +30,9 @@ public class OrderRepository {
         orderJpaRepository.deleteById(id);
     }
 
-    public void update(Order futureOrder) {
-        Order orderDatabase = orderJpaRepository.findById(futureOrder.getId()).get();
-
-        orderDatabase.setDeliveryDate(futureOrder.getDeliveryDate());
-        orderDatabase.setOrderStatus(futureOrder.getOrderStatus());
-        orderDatabase.setPayment(futureOrder.getPayment());
+    public void update(long id, Order futureOrder) {
+        Order orderDatabase = orderJpaRepository.findById(id).get();
+        BeanUtils.copyProperties(futureOrder, orderDatabase, "id");
 
         orderJpaRepository.save(orderDatabase);
     }

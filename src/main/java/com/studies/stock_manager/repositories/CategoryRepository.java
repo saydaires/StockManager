@@ -1,6 +1,7 @@
 package com.studies.stock_manager.repositories;
 import com.studies.stock_manager.entities.Category;
 import com.studies.stock_manager.repositories.interfaces.CategoryJpaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,11 +30,9 @@ public class CategoryRepository {
         categoryJpaRepository.deleteById(id);
     }
 
-    public void update(Category futureCategory) {
-        Category categoryDatabase = categoryJpaRepository.findById(futureCategory.getId()).get();
-
-        categoryDatabase.setName(futureCategory.getName());
-
+    public void update(long id, Category futureCategory) {
+        Category categoryDatabase = categoryJpaRepository.findById(id).get();
+        BeanUtils.copyProperties(futureCategory, categoryDatabase, "id");
         categoryJpaRepository.save(categoryDatabase);
     }
 }

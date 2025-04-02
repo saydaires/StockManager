@@ -1,6 +1,7 @@
 package com.studies.stock_manager.repositories;
 import com.studies.stock_manager.entities.Customer;
 import com.studies.stock_manager.repositories.interfaces.CustomerJpaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -28,12 +29,13 @@ public class CustomerRepository {
         customerJpaRepository.deleteById(id);
     }
 
-    public void update(Customer futureCustomer) {
-        Customer customerDatabase = customerJpaRepository.findById(futureCustomer.getId()).get();
-
-        customerDatabase.setEmail(futureCustomer.getEmail());
-        customerDatabase.setPassword(futureCustomer.getPassword());
-
+    public void update(long id, Customer futureCustomer) {
+        Customer customerDatabase = customerJpaRepository.findById(id).get();
+        BeanUtils.copyProperties(futureCustomer, customerDatabase, "id");
         customerJpaRepository.save(customerDatabase);
+    }
+
+    public Customer findByEmail(String email) {
+        return customerJpaRepository.findCustomerByEmail(email);
     }
 }

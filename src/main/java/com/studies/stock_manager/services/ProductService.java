@@ -3,6 +3,7 @@ import com.studies.stock_manager.entities.Product;
 import com.studies.stock_manager.repositories.ProductRepository;
 import com.studies.stock_manager.services.exceptions.DelayedRecordException;
 import com.studies.stock_manager.services.exceptions.EntityNotFoundException;
+import org.springframework.beans.BeansException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import java.util.NoSuchElementException;
 import java.util.List;
@@ -42,12 +43,15 @@ public class ProductService {
         }
     }
 
-    public void update(Product product) {
+    public void update(long id, Product product) {
         try {
-            productRepository.update(product);
+            productRepository.update(id, product);
         }
         catch(IllegalArgumentException error) {
             throw new EntityNotFoundException("Object cannot be null!", error);
+        }
+        catch(BeansException error) {
+            throw new EntityNotFoundException("Error during handling bean!", error);
         }
         catch(OptimisticLockingFailureException error) {
             throw new DelayedRecordException("Application data in conflict with the database!", error);
