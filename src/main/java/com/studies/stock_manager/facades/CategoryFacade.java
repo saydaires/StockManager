@@ -20,7 +20,7 @@ public class CategoryFacade {
         return categoryService.getById(id);
     }
 
-    public List<Category> getAll(long id) {
+    public List<Category> getAll() {
         return categoryService.getAll();
     }
 

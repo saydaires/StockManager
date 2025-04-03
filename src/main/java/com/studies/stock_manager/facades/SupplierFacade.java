@@ -16,7 +16,7 @@ public class SupplierFacade {
         supplierService.create(supplier);
     }
 
-    public Supplier getBydId(long id) {
+    public Supplier getById(long id) {
         return supplierService.getById(id);
     }
 
