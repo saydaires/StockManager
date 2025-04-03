@@ -1,10 +1,12 @@
 package com.studies.stock_manager.facades;
 import com.studies.stock_manager.entities.OrderItem;
 import com.studies.stock_manager.services.OrderItemService;
+import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Component
 public class OrderItemFacade {
-    private OrderItemService orderItemService;
+    private final OrderItemService orderItemService;
 
     public OrderItemFacade(OrderItemService orderItemService) {
         this.orderItemService = orderItemService;

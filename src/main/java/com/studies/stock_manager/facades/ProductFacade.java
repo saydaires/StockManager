@@ -1,10 +1,12 @@
 package com.studies.stock_manager.facades;
 import com.studies.stock_manager.entities.Product;
 import com.studies.stock_manager.services.ProductService;
+import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Component
 public class ProductFacade {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductFacade(ProductService productService) {
         this.productService = productService;
