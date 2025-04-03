@@ -1,9 +1,10 @@
 package com.studies.stock_manager.facades;
 import com.studies.stock_manager.entities.Customer;
 import com.studies.stock_manager.services.CustomerService;
-
+import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Component
 public class CustomerFacade {
     private final CustomerService customerService;
 
@@ -19,7 +20,7 @@ public class CustomerFacade {
         return customerService.getById(id);
     }
 
-    public List<Customer> getAll(long id) {
+    public List<Customer> getAll() {
         return customerService.getAll();
     }
 

@@ -1,9 +1,10 @@
 package com.studies.stock_manager.facades;
 import com.studies.stock_manager.entities.Category;
 import com.studies.stock_manager.services.CategoryService;
-
+import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Component
 public class CategoryFacade {
     private final CategoryService categoryService;
 
