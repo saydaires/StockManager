@@ -1,8 +1,9 @@
 package com.studies.stock_manager.entities;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.studies.stock_manager.entities.enums.OrderStatus;
 import com.studies.stock_manager.entities.enums.Payment;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -17,15 +18,19 @@ public class Order {
     private long version;
 
     @Column(name = "order_date")
-    private Date orderDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDate orderDate;
 
     @Column(name = "delivery_date")
-    private Date deliveryDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    private LocalDate deliveryDate;
 
     @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @Column(name = "payment")
+    @Enumerated(EnumType.STRING)
     private Payment payment;
 
     @OneToMany(mappedBy = "order")
@@ -46,19 +51,19 @@ public class Order {
         this.id = id;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Date getDeliveryDate() {
+    public LocalDate getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

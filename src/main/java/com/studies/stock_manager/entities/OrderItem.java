@@ -20,9 +20,6 @@ public class OrderItem {
     @JoinColumn(name = "id_order", referencedColumnName = "id")
     private Order order;
 
-//    @Column(name = "id_product")
-//    private long idProduct;
-
     @ManyToOne
     @JoinColumn(name = "id_product", referencedColumnName = "id")
     private Product product;
